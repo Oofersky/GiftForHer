@@ -1,0 +1,1761 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Это тебе :)</title>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    color: #000000;
+    overflow-x: hidden;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    line-height: 1.6;
+    background-color: #fff5f5;
+}
+
+/* Секции */
+.section {
+    min-height: 100vh;
+    width: 100%;
+    padding: 6rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Разделители с затемненным фоном */
+.section-divider {
+    position: relative;
+    height: 120px;
+    width: 100%;
+    overflow: hidden;
+    background: rgba(70, 0, 0, 0.3);
+}
+
+.divider-svg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    fill: #5a0000;
+    opacity: 0.9;
+}
+
+.divider-top {
+    transform: rotate(180deg);
+    background: linear-gradient(to bottom, rgba(90,0,0,0.9), rgba(90,0,0,0.4));
+}
+
+.divider-bottom {
+    background: linear-gradient(to bottom, rgba(90,0,0,0.4), rgba(90,0,0,0.9));
+}
+
+.content-wrapper {
+    max-width: 1000px;
+    width: 100%;
+    position: relative;
+    text-align: center;
+}
+
+/* Первая секция */
+#intro {
+    background: linear-gradient(135deg, #5a0000 0%, #8B0000 50%, #5a0000 100%);
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    padding-bottom: 8rem;
+}
+
+/* Вторая секция */
+#content {
+    background-color: #ffffff;
+    padding-top: 8rem;
+}
+
+/* Галерея с адаптивными фото */
+#gallery {
+    background-color: #f9f9f9;
+    padding-top: 8rem;
+}
+
+.gallery-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.photo-row {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.photo-card {
+    flex: 1;
+    min-width: 250px;
+    max-width: 350px;
+    perspective: 1000px;
+    margin-bottom: 1.5rem;
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+.photo-card:nth-child(1) { animation-delay: 0.1s; }
+.photo-card:nth-child(2) { animation-delay: 0.2s; }
+.photo-card:nth-child(3) { animation-delay: 0.3s; }
+
+.photo-card.large {
+    max-width: 800px;
+    margin: 2rem auto;
+    animation-delay: 0.4s;
+}
+
+.photo-frame {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 125%; /* Соотношение 4:5 */
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transform-style: preserve-3d;
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    background: white;
+    border: 12px solid white;
+}
+
+.photo-card.large .photo-frame {
+    padding-bottom: 66.66%; /* Соотношение 3:2 */
+    border: 15px solid white;
+    border-bottom: 50px solid white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(to bottom, #f5f5f5, white 20%);
+}
+
+.photo-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    transform-origin: center center;
+}
+
+.photo-card:hover .photo-frame {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    transform: translateY(-5px) rotateY(5deg);
+}
+
+.photo-card:hover .photo-img {
+    transform: scale(1.03);
+}
+
+.photo-card.large:hover .photo-frame {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.photo-caption {
+    padding: 1.5rem 0;
+    text-align: center;
+    color: #8B0000;
+    font-style: italic;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.photo-card:hover .photo-caption {
+    transform: translateY(-5px);
+    color: #5a0000;
+}
+
+/* Эффект винтажной фотографии */
+.photo-frame::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(139, 0, 0, 0.03);
+    mix-blend-mode: multiply;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.photo-frame::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Секция предсказаний */
+#predictions {
+    background: linear-gradient(to bottom, #8B0000, #5a0000);
+    padding-top: 8rem;
+    color: white;
+}
+
+.predictions-game {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.prediction-cards {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.prediction-card {
+    width: 100px;
+    height: 150px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
+.prediction-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.prediction-card.flipped {
+    background: white;
+    color: #8B0000;
+    border: 2px solid #8B0000;
+    transform: rotateY(180deg);
+}
+
+.prediction-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    backface-visibility: hidden;
+    transform: rotateY(180deg);
+}
+
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden;
+}
+
+.prediction-emoji {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.prediction-text {
+    font-size: 0.8rem;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.attempts-counter {
+    margin: 1rem 0;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.game-button {
+    background: white;
+    color: #8B0000;
+    border: none;
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.game-button:hover {
+    background: #FFC0CB;
+    transform: translateY(-3px);
+}
+
+.game-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Типография */
+.section-title {
+    font-size: 2.8rem;
+    margin-bottom: 1.5rem;
+    font-weight: normal;
+    letter-spacing: 0.5px;
+}
+
+#intro .section-title {
+    color: white;
+    font-size: 3rem;
+    margin-bottom: 2rem;
+}
+
+.section-text {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+#intro .section-text {
+    font-size: 1.3rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Кнопки */
+.action-button {
+    background: #8B0000;
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.action-button:hover {
+    background: #A80000;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Навигация */
+.nav-button {
+    display: inline-block;
+    margin: 1rem 0.5rem;
+    padding: 0.8rem 1.8rem;
+    background: rgba(139, 0, 0, 0.1);
+    color: #8B0000;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+    background: rgba(139, 0, 0, 0.2);
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes cardFlip {
+    from {
+        transform: rotateY(0);
+    }
+    to {
+        transform: rotateY(180deg);
+    }
+}
+
+@keyframes modalAppear {
+    from { 
+        transform: translateY(-50px); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translateY(0); 
+        opacity: 1; 
+    }
+}
+
+/* Модальные окна */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-content {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 15px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    animation: modalAppear 0.4s ease-out;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-title {
+    color: #8B0000;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.prediction-result {
+    font-size: 1.3rem;
+    margin: 1.5rem 0;
+    line-height: 1.6;
+}
+
+.other-predictions {
+    margin-top: 2rem;
+    text-align: left;
+    border-top: 1px solid #eee;
+    padding-top: 1rem;
+}
+
+.other-prediction {
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+}
+
+.prediction-emoji {
+    font-size: 1.5rem;
+    margin-right: 0.8rem;
+}
+
+.close-button {
+    background: #8B0000;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.8rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1.5rem;
+}
+
+.close-button:hover {
+    background: #A80000;
+}
+
+@media (max-width: 768px) {
+    .section {
+        padding: 4rem 1.5rem;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+    }
+    
+    .photo-row {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .photo-card {
+        max-width: 100%;
+    }
+    
+    .photo-frame {
+        padding-bottom: 100%;
+    }
+    
+    .photo-card.large .photo-frame {
+        padding-bottom: 75%;
+    }
+}
+
+@media (max-width: 480px) {
+    .section {
+        padding: 3rem 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .prediction-card {
+        width: 80px;
+        height: 120px;
+        font-size: 2rem;
+    }
+    
+    .prediction-text {
+        font-size: 0.7rem;
+    }
+    
+    .photo-frame {
+        border-width: 8px;
+    }
+    
+    .photo-card.large .photo-frame {
+        border-width: 10px;
+        border-bottom-width: 40px;
+    }
+    
+    .photo-caption {
+        font-size: 1rem;
+        padding: 1rem 0;
+    }
+}  
+
+.ticket {
+    font-size: clamp(1rem, 4vw, 2rem);
+    text-align: center;
+    padding: 0 0.5rem;
+}
+
+.task {
+    position: absolute;
+    width: 200px;
+    min-height: 60px;
+    background: white;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    animation: fadeIn 0.5s ease-out;
+    border: 1px solid #eee;
+}
+
+.task:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+.task-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    margin-right: 12px;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.task-text {
+    font-size: 0.9rem;
+    color: #5a0000;
+    font-family: 'Georgia', serif;
+}
+
+.golden-task {
+    border-left: 4px solid #ffab40;
+    background-color: #fffaf0;
+}
+
+.golden-task .task-checkbox {
+    border-color: #ffab40;
+}
+
+.task-completed {
+    animation: taskComplete 0.5s forwards;
+}
+
+@keyframes taskComplete {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0.8); opacity: 0; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .task {
+        width: 160px;
+        min-height: 50px;
+        padding: 10px;
+    }
+    
+    .task-text {
+        font-size: 0.8rem;
+    }
+    
+    #tasks-area {
+        height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .task {
+        width: 140px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <section id="intro" class="section">
+        <div class="content-wrapper">
+            <h1 class="section-title">Дорогая Полина!</h1>
+            <p class="section-text">Эта открытка создана специально для тебя, для такого замечательного дня...</p>
+            <button class="action-button" onclick="scrollToContent()">Открыть открытку</button>
+        </div>
+    </section>
+      
+    <section id="content" class="section">
+        <div class="content-wrapper">
+            <h2 class="section-title">С твоим днём! 🤗</h2>
+<p class="section-text">В этой открытке ты можешь получить персональные предсказания, поиграть в мини-игры, советую попробовать и прокликать всё.</p>
+<p class="section-text">Каждый элемент создан с заботой, чтобы твой день стал ещё чуть светлее и радостнее :))</p>
+            
+            <a href="#gallery" class="nav-button">Посмотреть фото</a>
+        </div>
+        
+    </section>
+    
+    <div class="section-divider">
+        <svg class="divider-svg divider-bottom" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25"></path>
+            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5"></path>
+            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"></path>
+        </svg>
+    </div>
+    
+<section id="gallery" class="section">
+    <div class="gallery-container">
+        <h2 class="section-title">Твои фоточки!</h2>
+        
+        <div class="photo-row">
+            <div class="photo-card">
+                <div class="photo-frame">
+                    <img src="/assets/ph1.jpg" alt="Фото 1" class="photo-img">
+                </div>
+                <p class="photo-caption">Это реально</p>
+            </div>
+            
+            <div class="photo-card">
+                <div class="photo-frame">
+                    <img src="/assets/ph2.jpg" alt="Фото 2" class="photo-img">
+                </div>
+                <p class="photo-caption">Ночная красота</p>
+            </div>
+            
+<div class="photo-card">
+                <div class="photo-frame">
+                    <img src="/assets/ph4.jpg" alt="Фото 2" class="photo-img">
+                </div>
+                <p class="photo-caption">Красный вайб)</p>
+            </div>
+            
+        <div class="photo-card">
+                <div class="photo-frame">
+                    <img src="/assets/ph2_1.jpg" alt="Фото 2" class="photo-img">
+                </div>
+                <p class="photo-caption">Ещё Москвы с тобой</p>
+            </div>
+        
+        <div class="photo-card large">
+            <div class="photo-frame">
+                <img src="/assets/s_ph1.jpg" alt="Главное фото" class="photo-img">
+            </div>
+            <p class="photo-caption">Знаю  ты помнишь это</p>
+        </div>
+
+        
+             <div class="photo-card">
+                <div class="photo-frame">
+                    <img src="/assets/ph3.jpg" alt="Фото 3" class="photo-img">
+                </div>
+                <p class="photo-caption">«‎Ты в Деле»‎</p>
+            </div>
+        </div>
+        
+        <div style="margin-top: 3rem; text-align: center;">
+            <a href="#content" class="nav-button">Вернуться к пожеланиям</a>
+            <a href="#tasks-game" class="nav-button">Игра "Выполни все дела!"</a>
+        </div>
+    </div>
+</section>
+    
+
+    <div class="section-divider">
+        <svg class="divider-svg divider-bottom" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25"></path>
+            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5"></path>
+            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"></path>
+        </svg>
+    </div>
+
+<section id="tasks-game" class="section" style="background-color: #ffffff; padding-top: 4rem;">
+    <div class="content-wrapper">
+        <h2 class="section-title">Игра "Выполни все дела!"</h2>
+        <p class="section-text">За отведённое время выполняй задачи. Нажимай на флажки, когда сделаешь!</p>
+        
+        <div style="max-width: 600px; margin: 2rem auto; text-align: center;">
+            <div class="score" style="font-size: 1.2rem; margin-bottom: 0.5rem;">Выполнено задач: <span id="tasks-score">0</span></div>
+            <div class="timer" style="font-size: 1.2rem; margin-bottom: 1.5rem;">Осталось времени: <span id="tasks-timer">45</span> сек</div>
+            <button class="action-button" id="start-tasks-btn" style="margin-bottom: 2rem;">Начать игру</button>
+            <div class="game-area" id="tasks-area" style="width: 100%; height: 300px; position: relative; background-color: #f9f9f9; border-radius: 10px; overflow: hidden;"></div>
+        </div>
+        
+        <div style="margin-top: 3rem;">
+            <a href="#content" class="nav-button">Вернуться к пожеланиям</a>
+            <a href="#predictions" class="nav-button">Игра в предсказания</a>
+        </div>
+    </div>
+</section>
+
+    <div class="section-divider">
+        <svg class="divider-svg divider-top" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25"></path>
+            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5"></path>
+            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"></path>
+        </svg>
+    </div>
+    
+    <section id="predictions" class="section">
+        <div class="content-wrapper">
+            <h2 class="section-title" style="color: white;">Игра в предсказания</h2>
+            <p style="color: rgba(255,255,255,0.8); margin-bottom: 2rem;">Выбери карту и узнай, что тебя ждёт! Ты в этом году можешь получить 3 предсказания. (чуть ниже есть ещё экзамен))</p>
+            
+            <div class="prediction-game">
+              <!--<div class="attempts-counter" id="attemptsCounter">Осталось попыток: 3</div>--> 
+                
+                <div class="prediction-cards">
+                    <div class="prediction-card" data-card="1">?</div>
+                    <div class="prediction-card" data-card="2">?</div>
+                    <div class="prediction-card" data-card="3">?</div>
+                </div>
+                
+                <button class="game-button" id="resetGame">Играть снова</button>
+            </div>
+        </div>
+    </section>
+
+<section id="exam" class="section" style="background: linear-gradient(to bottom, #5a0000, #3a0000);">
+        <div class="content-wrapper">
+            <h2 class="section-title" style="color: white;">Экзамен по Делу</h2>
+            <p style="color: rgba(255,255,255,0.8); margin-bottom: 2rem;">Вытяни билет и ответь на вопросы! (после чего ты можешь оставить послание)</p>
+            
+            <div class="exam-game" style="background: rgba(255, 255, 255, 0.1); border-radius: 15px; padding: 2rem; max-width: 600px; margin: 0 auto; backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.1);">
+                <div class="ticket-container" style="text-align: center; margin-bottom: 2rem;">
+                    <div class="ticket" style="width: 150px; height: 200px; background: rgba(255, 255, 255, 0.2); margin: 0 auto; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); border: 2px solid rgba(255, 255, 255, 0.3);">
+                        Вытянуть билет
+                    </div>
+                </div>
+                
+                <div class="exam-content" style="display: none;">
+                    <div class="question" style="margin-bottom: 1.5rem;">
+                        <h3 style="color: white; margin-bottom: 1rem;"></h3>
+                        <div class="options" style="display: flex; flex-direction: column; gap: 0.8rem;"></div>
+                    </div>
+                    <button class="game-button next-question" style="display: none;">Следующий вопрос</button>
+                </div>
+                
+                <div class="exam-result" style="display: none; text-align: center;">
+                    <h3 style="color: white; margin-bottom: 1rem;"></h3>
+                    <p style="color: rgba(255,255,255,0.8);"></p>
+                    <button class="game-button restart-exam" style="margin-top: 1.5rem;">Пройти еще раз</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider">
+        <svg class="divider-svg divider-bottom" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25"></path>
+            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5"></path>
+            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"></path>
+        </svg>
+    </div>
+    
+
+    <section id="message-section" class="section" style="background-color: #f9f9f9; padding-top: 4rem;">
+    <div class="content-wrapper">
+        <h2 class="section-title">Оставь послание</h2>
+        <p class="section-text">Если хочешь что-то написать, то можешь это сделать здесь, в течении определённого времени я смогу увидеть данное сообщение, примерно в течении недели.</p>
+        
+        <div style="max-width: 600px; margin: 0 auto; padding: 2rem; background: white; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+            <div style="margin-bottom: 1.5rem;">
+                <label for="message-text" style="display: block; margin-bottom: 0.5rem; color: #5a0000;">Твоё сообщение:</label>
+                <textarea id="message-text" rows="5" style="width: 100%; padding: 1rem; border: 1px solid #ddd; border-radius: 8px; font-family: 'Georgia', serif;" placeholder="Напиши что-нибудь приятное..."></textarea>
+            </div>
+            
+            <button id="send-message-btn" class="action-button" style="width: 100%;">Отправить послание</button>
+        </div>
+        
+        <div style="margin-top: 3rem; text-align: center;">
+            <a href="#content" class="nav-button">Вернуться к пожеланиям</a>
+            <a href="#tasks-game" class="nav-button">Игра "Выполни дела"</a>
+        </div>
+    </div>
+</section>
+
+<div class="modal" id="message-modal" style="display:none;">
+    <div class="modal-content">
+        <h3 class="modal-title" id="message-modal-title">Отправка сообщения</h3>
+        <div class="prediction-result" id="message-modal-text">
+            Пожалуйста, подожди...
+        </div>
+        <div style="width: 100%; height: 5px; background: #eee; border-radius: 5px; margin: 1rem 0;">
+            <div id="message-progress-bar" style="width: 0%; height: 100%; background: #8B0000; border-radius: 5px; transition: width 0.3s;"></div>
+        </div>
+        <button class="close-button" id="close-message-modal-btn" style="display: none;">Закрыть</button>
+    </div>
+</div>
+    
+<div class="modal" id="answerFeedbackModal">
+  <div class="modal-content">
+    <h3 class="modal-title" id="feedbackTitle">Ответ</h3>
+    <div class="prediction-result" id="feedbackMessage">Ты умничка!!</div>
+    <button class="close-button" id="closeFeedbackButton">Продолжить</button>
+  </div>
+</div>
+
+<div class="modal" id="tasks-modal" style="display:none;">
+    <div class="modal-content">
+        <h3 class="modal-title">Результаты дня</h3>
+        <div class="prediction-result">
+            <p id="tasks-result">Ты выполнила 0 задач!</p>
+            <p id="golden-tasks-result">Важных задач: 0</p>
+        </div>
+        
+        <div class="other-predictions">
+            <h4>Общая статистика</h4>
+            <div class="other-prediction">
+                <span class="prediction-emoji">✅</span>
+                <span>Всего выполнено задач: <span id="total-tasks">0</span></span>
+            </div>
+            <div class="other-prediction">
+                <span class="prediction-emoji">⭐</span>
+                <span>Всего важных задач: <span id="total-golden-tasks">0</span></span>
+            </div>
+            
+            <h4 style="margin-top: 1.5rem;">Твои награды</h4>
+            <div id="tasks-prizes-list" style="margin-top: 0.5rem;"></div>
+        </div>
+        
+        <button class="close-button" id="close-tasks-modal-btn">Закрыть</button>
+    </div>
+</div>
+
+    <div class="modal" id="predictionModal">
+        <div class="modal-content">
+            <h3 class="modal-title">Твоё предсказание</h3>
+            <div class="prediction-result">
+                <span id="predictionEmoji" style="font-size: 2rem;"></span>
+                <span id="predictionText"></span>
+            </div>
+            
+            <div class="other-predictions" id="otherPredictions">
+                <p>А в других карточках было:</p>
+                <!-- Сюда будут добавляться другие предсказания -->
+            </div>
+            
+            <button class="close-button">Закрыть</button>
+        </div>
+    </div>
+
+    <div class="modal" id="noAttemptsModal">
+        <div class="modal-content">
+            <h3 class="modal-title">Ой!</h3>
+            <div class="prediction-result">
+                Ты исчерпала все попытки в этом году, на следующий день рождения будут ещё попытки и в новом виде :3
+            </div>
+            <button class="close-button">Закрыть</button>
+        </div>
+    </div>
+
+    <script>
+ 
+    function scrollToContent() {
+        document.getElementById('content').scrollIntoView({
+            behavior: 'smooth'
+        });
+    }
+    
+    // Анимация для фотографий
+    window.addEventListener('scroll', function() {
+        const elements = document.querySelectorAll('.photo-card');
+        
+        elements.forEach((element, index) => {
+            const elementPosition = element.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight / 1.2;
+            
+            if(elementPosition < screenPosition) {
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, 150 * index);
+            }
+        });
+    });
+    
+    // Игра предсказаний
+    const predictions = [
+        { emoji: '✨', text: 'Сегодня тебя ждёт нечто волшебное!' },
+        { emoji: '🌷', text: 'Твоя доброта принесёт прекрасные плоды' },
+        { emoji: '🍀', text: 'Удача будет на твоей стороне' },
+        { emoji: '🌈', text: 'После испытания будет награда' },
+        { emoji: '🕊️', text: 'Мир и гармония наполнят твой день' },
+        { emoji: '📖', text: 'Новые знания откроют перспективы' },
+        { emoji: '🎵', text: 'Музыка вдохновит тебя на творчество' },
+        { emoji: '☕', text: 'Маленькие радости сделают день теплее' },
+        { emoji: '🦋', text: 'Прекрасные перемены уже на пути' },
+        { emoji: '🌙', text: 'Вечер принесёт приятные размышления' }
+    ];
+
+    let remainingSessions = 3; 
+    let attemptsInSession = 3; 
+    let gameActive = true;
+    let currentCards = [];
+    let predictionIndex = -1;
+    let foundPrediction = false;
+
+    function showModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.style.display = 'flex';
+        setTimeout(() => {
+            modal.classList.add('active');
+        }, 10);
+    }
+
+    function hideModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.classList.remove('active');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+    }
+
+    // Инициализация новой сессии
+    function initNewSession() {
+        if (remainingSessions <= 0) {
+            showModal('noAttemptsModal');
+            return false;
+        }
+
+        gameActive = true;
+        foundPrediction = false;
+        attemptsInSession = 3;
+        
+        // Выбираем случайное предсказание и его позицию
+        const shuffled = [...predictions].sort(() => 0.5 - Math.random());
+        predictionIndex = Math.floor(Math.random() * 3); // 0, 1 или 2
+        currentCards = [
+            { emoji: '', text: 'Ничего не было' },
+            { emoji: '', text: 'Ничего не было' },
+            { emoji: '', text: 'Ничего не было' }
+        ];
+        currentCards[predictionIndex] = shuffled[0];
+        
+        // Обновляем карточки
+        const cards = document.querySelectorAll('.prediction-card');
+        cards.forEach((card, index) => {
+            card.innerHTML = '?';
+            card.classList.remove('flipped');
+            card.style.pointerEvents = 'auto';
+            card.dataset.index = index;
+        });
+        
+        return true;
+    }
+
+    // Обработка клика по карточке
+    function handleCardClick(card, index) {
+        if (!gameActive || card.classList.contains('flipped')) return;
+        
+        card.classList.add('flipped');
+        attemptsInSession--;
+        
+        // Показываем содержимое карточки
+        const prediction = currentCards[index];
+        card.innerHTML = `
+            <div class="prediction-content">
+                <div class="prediction-emoji">${prediction.emoji}</div>
+                <div class="prediction-text">${prediction.text}</div>
+            </div>
+        `;
+        
+        // Если это карточка с предсказанием
+        if (index === predictionIndex) {
+            foundPrediction = true;
+            document.getElementById('predictionEmoji').textContent = prediction.emoji;
+            document.getElementById('predictionText').textContent = prediction.text;
+            
+            // Показываем другие карточки
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.prediction-card');
+                cards.forEach((c, i) => {
+                    if (i !== index) {
+                        c.classList.add('flipped');
+                        const otherPrediction = currentCards[i];
+                        c.innerHTML = `
+                            <div class="prediction-content">
+                                <div class="prediction-emoji">${otherPrediction.emoji}</div>
+                                <div class="prediction-text">${otherPrediction.text}</div>
+                            </div>
+                        `;
+                    }
+                    c.style.pointerEvents = 'none';
+                });
+                
+                setTimeout(() => {
+                    showModal('predictionModal');
+                }, 500);
+            }, 500);
+            
+            // Завершаем сессию
+            gameActive = false;
+            remainingSessions--;
+        } 
+        // Если карточка пустая
+        else {
+            // Если попытки в сессии закончились
+            if (attemptsInSession <= 0) {
+                remainingSessions--;
+                gameActive = false;
+                
+                // Показываем все карточки
+                setTimeout(() => {
+                    const cards = document.querySelectorAll('.prediction-card');
+                    cards.forEach((c, i) => {
+                        if (!c.classList.contains('flipped')) {
+                            c.classList.add('flipped');
+                            const otherPrediction = currentCards[i];
+                            c.innerHTML = `
+                                <div class="prediction-content">
+                                    <div class="prediction-emoji">${otherPrediction.emoji}</div>
+                                    <div class="prediction-text">${otherPrediction.text}</div>
+                                </div>
+                            `;
+                        }
+                        c.style.pointerEvents = 'none';
+                    });
+                    
+                    if (remainingSessions <= 0) {
+                        setTimeout(() => {
+                            showModal('noAttemptsModal');
+                        }, 500);
+                    }
+                }, 500);
+            }
+        }
+    }
+
+    // Инициализация при загрузке
+    document.addEventListener('DOMContentLoaded', () => {
+        // Назначаем обработчики кликов на карточки
+        const cards = document.querySelectorAll('.prediction-card');
+        cards.forEach(card => {
+            card.addEventListener('click', function() {
+                const index = parseInt(this.dataset.card) - 1; // преобразуем в 0-based индекс
+                handleCardClick(this, index);
+            });
+        });
+        
+        // "Играть снова"
+        document.getElementById('resetGame').addEventListener('click', initNewSession);
+        
+        // Кнопки закрытия модальных окон
+        document.querySelectorAll('.close-button').forEach(button => {
+            button.addEventListener('click', function() {
+                hideModal(this.closest('.modal').id);
+                if (!foundPrediction && remainingSessions > 0) {
+                    initNewSession();
+                }
+            });
+        });
+        
+        initNewSession();
+    });
+
+      // экзамен по делу
+    const examTickets = [
+        {
+            type: 'normal',
+            title: "Обычный билет 1",
+            questions: [
+                {
+                    question: "Что такое выручка в бизнесе?",
+                    options: ["Все деньги, полученные от продаж", "Прибыль", "Налоги", "Инвестиции"],
+                    answer: "Все деньги, полученные от продаж"
+                },
+                {
+                    question: "Кто такой предприниматель?",
+                    options: ["Человек, который работает по найму", "Человек, который организует бизнес", "Покупатель", "Менеджер в компании"],
+                    answer: "Человек, который организует бизнес"
+                },
+                {
+                    question: "Что из этого — бизнес-идея?",
+                    options: ["Купить мороженое", "Открыть кофейню с уникальным меню", "Посмотреть фильм", "Сделать домашку"],
+                    answer: "Открыть кофейню с уникальным меню"
+                }
+            ]
+        },
+        {
+            type: 'normal',
+            title: "Обычный билет 2",
+            questions: [
+                {
+                    question: "Что такое себестоимость?",
+                    options: ["Цена продажи товара", "Затраты на производство товара", "Прибыль от продажи", "Налог на прибыль"],
+                    answer: "Затраты на производство товара"
+                },
+                {
+                    question: "Что такое маркетинг?",
+                    options: ["Процесс продажи товаров", "Процесс изучения рынка и продвижения товаров", "Производство товаров", "Бухгалтерский учет"],
+                    answer: "Процесс изучения рынка и продвижения товаров"
+                },
+                {
+                    question: "Что такое бизнес-план?",
+                    options: ["Список покупок", "Документ с описанием бизнеса и его развития", "Дневник предпринимателя", "Календарь встреч"],
+                    answer: "Документ с описанием бизнеса и его развития"
+                }
+            ]
+        },
+        {
+            type: 'lucky',
+            title: "Счастливый билет",
+            questions: [
+                {
+                    question: "Как зовут человека, который сделал такой подарочек?",
+                    options: ["Артём", "Не Артём", "Точно не Артём"],
+                    answer: "Артём"
+                },
+                {
+                    question: "Как называется замечательный проект, в котором ты прекрасно работаешь?",
+                    options: ["Я в деле", "Не Я в деле", "Точно не Я в деле"],
+                    answer: "Я в деле"
+                },
+                {
+                    question: "Хочешь вкусненькое?",
+                    options: ["Да"],
+                    answer: "Да"
+                }
+            ]
+        },
+        {
+            type: 'unlucky',
+            title: "Несчастливый билет",
+            message: "Несчастливый билет! Теперь нужно ответить на 6 вопросов."
+        }
+    ];
+
+    let currentExam = {
+        tickets: [],       
+        currentTicket: 0,  
+        currentQuestion: 0,
+        score: 0,          
+        totalQuestions: 0  
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const ticketElement = document.querySelector('.ticket');
+        const examContent = document.querySelector('.exam-content');
+        const questionElement = examContent.querySelector('.question h3');
+        const optionsElement = examContent.querySelector('.options');
+        const nextButton = examContent.querySelector('.next-question');
+        const examResult = document.querySelector('.exam-result');
+        const resultTitle = examResult.querySelector('h3');
+        const resultMessage = examResult.querySelector('p');
+        const restartButton = examResult.querySelector('.restart-exam');
+
+        const feedbackModal = document.getElementById('answerFeedbackModal');
+        const feedbackTitle = document.getElementById('feedbackTitle');
+        const feedbackMessage = document.getElementById('feedbackMessage');
+        const closeFeedbackButton = document.getElementById('closeFeedbackButton');
+
+        let afterFeedback = () => {};
+
+        ticketElement.addEventListener('click', drawTicket);
+        nextButton.addEventListener('click', nextQuestion);
+        restartButton.addEventListener('click', resetExam);
+        closeFeedbackButton.addEventListener('click', () => {
+            hideModal('answerFeedbackModal');
+            afterFeedback();
+        });
+
+        function drawTicket() {
+            if (currentExam.tickets.length > 0) return; 
+            
+            const randomIndex = Math.floor(Math.random() * examTickets.length);
+            const drawnTicket = examTickets[randomIndex];
+            
+            if (drawnTicket.type === 'unlucky') {
+                ticketElement.textContent = drawnTicket.message;
+                
+                const normalTickets = examTickets.filter(t => t.type === 'normal');
+                const shuffled = [...normalTickets].sort(() => 0.5 - Math.random());
+                currentExam.tickets = shuffled.slice(0, 2);
+                currentExam.totalQuestions = 6; 
+            } else {
+                currentExam.tickets = [drawnTicket];
+                currentExam.totalQuestions = 3;
+            }
+            
+            currentExam.currentTicket = 0;
+            currentExam.currentQuestion = 0;
+            currentExam.score = 0;
+        
+            setTimeout(() => {
+                ticketElement.textContent = currentExam.tickets[0].title;
+                examContent.style.display = 'block';
+                showQuestion(currentExam.tickets[0].questions[0]);
+            }, 1000);
+        }
+
+
+        function showQuestion(question) {
+            questionElement.textContent = question.question;
+            optionsElement.innerHTML = '';
+            nextButton.style.display = 'none';
+
+            question.options.forEach(option => {
+                const btn = document.createElement('button');
+                btn.className = 'game-button';
+                btn.style.margin = '0.2rem 0';
+                btn.style.width = '100%';
+                btn.textContent = option;
+
+                btn.addEventListener('click', () => {
+                    checkAnswer(option, question.answer, btn);
+                });
+
+                optionsElement.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, correct, clickedButton) {
+            const isCorrect = selected === correct;
+            const buttons = optionsElement.querySelectorAll('button');
+
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === correct) {
+                    btn.style.background = '#4CAF50'; 
+                } else if (btn === clickedButton && !isCorrect) {
+                    btn.style.background = '#F44336'; 
+                }
+            });
+
+            feedbackTitle.textContent = isCorrect ? 'Правильно! 🎉' : 'Неправильно 😢';
+            feedbackMessage.textContent = isCorrect
+                ? 'Ты умничка!'
+                : `Правильный ответ: ${correct}`;
+            showModal('answerFeedbackModal');
+
+            afterFeedback = () => {
+                if (isCorrect) currentExam.score++;
+                nextButton.style.display = 'block';
+            };
+        }
+
+        function nextQuestion() {
+            currentExam.currentQuestion++;
+            
+            if (currentExam.currentQuestion >= currentExam.tickets[currentExam.currentTicket].questions.length) {
+                currentExam.currentTicket++;
+                currentExam.currentQuestion = 0;
+                
+                if (currentExam.currentTicket >= currentExam.tickets.length) {
+                    showResult();
+                    return;
+                }
+                
+                ticketElement.textContent = currentExam.tickets[currentExam.currentTicket].title;
+            }
+            
+            showQuestion(currentExam.tickets[currentExam.currentTicket].questions[currentExam.currentQuestion]);
+        }
+
+        function showResult() {
+            examContent.style.display = 'none';
+            examResult.style.display = 'block';
+            
+            resultTitle.textContent = 'Результат экзамена';
+            const percentage = Math.round((currentExam.score / currentExam.totalQuestions) * 100);
+            
+            if (percentage === 100) {
+                resultMessage.textContent = `Идеально! ${currentExam.score}/${currentExam.totalQuestions} (100%) 🎉`;
+            } else if (percentage >= 70) {
+                resultMessage.textContent = `Хорошо! ${currentExam.score}/${currentExam.totalQuestions} (${percentage}%) 👍`;
+            } else {
+                resultMessage.textContent = `Попробуй еще! ${currentExam.score}/${currentExam.totalQuestions} (${percentage}%)`;
+            }
+        }
+
+        function resetExam() {
+            currentExam = {
+                tickets: [],
+                currentTicket: 0,
+                currentQuestion: 0,
+                score: 0,
+                totalQuestions: 0
+            };
+            
+            ticketElement.textContent = 'Вытянуть билет';
+            examContent.style.display = 'none';
+            examResult.style.display = 'none';
+        }
+
+        function showModal(id) {
+            const modal = document.getElementById(id);
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+        }
+
+        function hideModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.remove('active');
+            setTimeout(() => (modal.style.display = 'none'), 300);
+        }
+    });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const predictionsSection = document.querySelector('#predictions');
+    predictionsSection.parentNode.insertBefore(examSection, predictionsSection);
+    
+    const navButtons = document.querySelectorAll('.nav-button');
+    navButtons.forEach(button => {
+        if (button.textContent === 'Игра в предсказания') {
+            const examButton = button.cloneNode(true);
+            examButton.textContent = 'Экзамен по Делу';
+            examButton.href = '#exam';
+            button.parentNode.insertBefore(examButton, button);
+        }
+    });
+});
+
+// игра в задачи
+const TASKS_LIST = [
+    "Сходить на встречу",
+    "Поесть",
+    "Отдохнуть",
+    "Сделать домашку",
+    "Позвонить маме",
+    "Сходить в магазин",
+    "Почитать книгу",
+    "Заняться спортом",
+    "Выпить воды",
+    "Запланировать дела",
+    "Сходить на съёмку",
+    "Сделать уборку",
+    "Сходить на мероприятие",
+    "Приготовить ужин",
+    "Пройтись на свежем воздухе",
+    "Выспаться"
+];
+
+// Настройки игры
+const TASK_PRIZES = [
+    "💪 +1 к продуктивности",
+    "🎯 +1 к фокусировке",
+    "⏱️ +1 к тайм-менеджменту",
+    "🧠 +1 к организованности",
+    "🌟 +1 к важным делам",
+    "✅ +1 к выполнению планов"
+];
+const TASKS_PER_GROUP = 3;
+const TASK_DISAPPEAR_DELAY = 5000;
+
+// Инициализация игры
+let tasksScore = 0;
+let goldenTasksCount = 0;
+let totalTasksCount = 0;
+let totalGoldenTasksCount = 0;
+let tasksGameTimer;
+let taskSpawnTimer;
+let tasksTimeLeft = 45;
+let currentTasksPrizes = [];
+let activeTasks = [];
+let usedTasks = [];
+
+// Загрузка статистики
+function loadTasksStats() {
+    const savedTotalTasks = localStorage.getItem('totalTasks');
+    const savedTotalGoldenTasks = localStorage.getItem('totalGoldenTasks');
+
+    if (savedTotalTasks !== null) {
+        totalTasksCount = parseInt(savedTotalTasks);
+        document.getElementById('total-tasks').textContent = totalTasksCount;
+    }
+
+    if (savedTotalGoldenTasks !== null) {
+        totalGoldenTasksCount = parseInt(savedTotalGoldenTasks);
+        document.getElementById('total-golden-tasks').textContent = totalGoldenTasksCount;
+    }
+}
+
+// Запуск игры
+document.getElementById('start-tasks-btn').addEventListener('click', function() {
+    // Сброс игры
+    tasksScore = 0;
+    goldenTasksCount = 0;
+    tasksTimeLeft = 45;
+    currentTasksPrizes = [];
+    activeTasks = [];
+    usedTasks = [];
+    
+    document.getElementById('tasks-score').textContent = '0';
+    document.getElementById('tasks-timer').textContent = '45';
+    document.getElementById('tasks-area').innerHTML = '';
+    document.getElementById('tasks-prizes-list').innerHTML = '';
+    this.disabled = true;
+
+    // Запуск таймера
+    tasksGameTimer = setInterval(function() {
+        tasksTimeLeft--;
+        document.getElementById('tasks-timer').textContent = tasksTimeLeft;
+
+        if (tasksTimeLeft <= 0) {
+            clearInterval(tasksGameTimer);
+            clearTimeout(taskSpawnTimer);
+            endTasksGame();
+        }
+    }, 1000);
+
+    spawnTaskGroup();
+});
+
+// Создание группы задач
+function spawnTaskGroup() {
+    // Очистка выполненных задач
+    activeTasks = activeTasks.filter(task => task.element.isConnected);
+    
+    // Удаляем самую старую задачу, если уже есть 6 активных
+    if (activeTasks.length >= 6) {
+        const oldestTask = activeTasks.shift();
+        if (oldestTask.element.isConnected) {
+            oldestTask.element.remove();
+        }
+    }
+    
+    // Создаем новые задачи
+    const availableTasks = TASKS_LIST.filter(task => !usedTasks.includes(task));
+    if (availableTasks.length === 0) {
+        usedTasks = []; // Сброс использованных задач
+    }
+    
+    for (let i = 0; i < TASKS_PER_GROUP && availableTasks.length > 0; i++) {
+        const randomIndex = Math.floor(Math.random() * availableTasks.length);
+        const taskText = availableTasks.splice(randomIndex, 1)[0];
+        usedTasks.push(taskText);
+        
+        createTask(taskText);
+    }
+    
+    // Новая группа задач каждые 5 секунд
+    if (tasksTimeLeft > 0) {
+        taskSpawnTimer = setTimeout(spawnTaskGroup, 5000);
+    }
+}
+
+// Создание отдельной задачи
+function createTask(text) {
+    const task = document.createElement('div');
+    task.className = 'task';
+    
+    // 20% шанс на важную задачу
+    const isImportant = Math.random() < 0.2;
+    if (isImportant) {
+        task.classList.add('golden-task');
+    }
+    
+    task.innerHTML = `
+        <div class="task-checkbox"></div>
+        <div class="task-text">${text}</div>
+    `;
+    
+    // Позиционирование
+    const x = Math.random() * (document.getElementById('tasks-area').offsetWidth - 200);
+    const y = Math.random() * (document.getElementById('tasks-area').offsetHeight - 60);
+    task.style.left = `${x}px`;
+    task.style.top = `${y}px`;
+    
+    task.addEventListener('click', function() {
+        completeTask(task, isImportant);
+    });
+    
+    document.getElementById('tasks-area').appendChild(task);
+    
+    // Добавляем в активные задачи
+    activeTasks.push({
+        element: task,
+        text: text,
+        isImportant: isImportant
+    });
+}
+
+// Выполнение задачи
+function completeTask(taskElement, isImportant) {
+    taskElement.classList.add('task-completed');
+    
+    // Увеличиваем счет
+    if (isImportant) {
+        tasksScore += 3;
+        goldenTasksCount++;
+    } else {
+        tasksScore += 1;
+    }
+
+    document.getElementById('tasks-score').textContent = tasksScore;
+    checkTasksPrizes();
+    
+    // Удаляем задачу после анимации
+    setTimeout(() => {
+        if (taskElement.isConnected) {
+            taskElement.remove();
+        }
+    }, 500);
+}
+
+// Проверка и выдача наград
+function checkTasksPrizes() {
+    if (currentTasksPrizes.length >= 2) return;
+    
+    if ((tasksScore >= 10 && currentTasksPrizes.length === 0) || 
+        (tasksScore >= 20 && currentTasksPrizes.length === 1)) {
+        const randomPrize = TASK_PRIZES[Math.floor(Math.random() * TASK_PRIZES.length)];
+        currentTasksPrizes.push(randomPrize);
+        
+        const prizeElement = document.createElement('div');
+        prizeElement.textContent = randomPrize;
+        prizeElement.style.margin = '0.5rem 0';
+        document.getElementById('tasks-prizes-list').appendChild(prizeElement);
+    }
+}
+
+// Завершение игры
+function endTasksGame() {
+    document.getElementById('start-tasks-btn').disabled = false;
+    document.getElementById('tasks-result').textContent = `ТЫ выполнила ${tasksScore} задач!`;
+    document.getElementById('golden-tasks-result').textContent = `Важных задач: ${goldenTasksCount}`;
+
+    // Обновление общей статистики
+    totalTasksCount += tasksScore;
+    totalGoldenTasksCount += goldenTasksCount;
+    document.getElementById('total-tasks').textContent = totalTasksCount;
+    document.getElementById('total-golden-tasks').textContent = totalGoldenTasksCount;
+    
+    // Сохранение статистики
+    localStorage.setItem('totalTasks', totalTasksCount);
+    localStorage.setItem('totalGoldenTasks', totalGoldenTasksCount);
+    
+    const modal = document.getElementById('tasks-modal');
+    modal.style.display = 'flex';
+    setTimeout(() => {
+        modal.style.opacity = '1';
+    }, 10);
+    
+    sendGameResultsToDiscord(tasksScore, goldenTasksCount);
+}
+
+function sendGameResultsToDiscord(score, goldenTasks) {
+    const webhookURL = 'https://discord.com/api/webhooks/1386447080007929938/dKE5h4iVXfb5zQUUCuxGodxuznip3rYOqX20CWeMQAqPZpH01FJddfWHQc4ei-021KCN';
+    
+    fetch(webhookURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            content: 'Новые результаты игры "Выполни все дела"!',
+            embeds: [{
+                title: 'Полина играла в игру',
+                description: `Выполнено задач: ${score} (${goldenTasks} важных)`,
+                color: 0xff7eb3,
+                fields: [
+                    { name: 'Всего выполнено задач', value: totalTasksCount.toString(), inline: true },
+                    { name: 'Всего важных задач', value: totalGoldenTasksCount.toString(), inline: true }
+                ]
+            }]
+        })
+    }).catch(error => console.error('Ошибка отправки:', error));
+}
+
+document.getElementById('close-tasks-modal-btn').addEventListener('click', function() {
+    const modal = document.getElementById('tasks-modal');
+    modal.style.opacity = '0';
+    setTimeout(() => {
+        modal.style.display = 'none';
+    }, 300);
+});
+
+document.addEventListener('DOMContentLoaded', loadTasksStats);
+
+// Элементы формы
+const messageText = document.getElementById('message-text');
+const sendMessageBtn = document.getElementById('send-message-btn');
+const messageModal = document.getElementById('message-modal');
+const messageModalTitle = document.getElementById('message-modal-title');
+const messageModalText = document.getElementById('message-modal-text');
+const messageProgressBar = document.getElementById('message-progress-bar');
+const closeMessageModalBtn = document.getElementById('close-message-modal-btn');
+
+// Discord Webhook URL
+const WEBHOOK_URL = 'https://discord.com/api/webhooks/1386447080007929938/dKE5h4iVXfb5zQUUCuxGodxuznip3rYOqX20CWeMQAqPZpH01FJddfWHQc4ei-021KCN';
+
+// Отправка послания
+sendMessageBtn.addEventListener('click', function() {
+    const text = messageText.value.trim();
+    
+    if (!text) {
+        showMessageModal('Ошибка', 'Нельзя отправить пустое сообщение!', true);
+        return;
+    }
+    
+    if (text.length > 500) {
+        showMessageModal('Ошибка', 'Сообщение слишком длинное (макс. 500 символов)', true);
+        return;
+    }
+    
+    showMessageModal('Отправка', 'Пожалуйста, подожди...', false);
+    
+    let progress = 0;
+    const progressInterval = setInterval(() => {
+        progress += 10;
+        messageProgressBar.style.width = `${progress}%`;
+        
+        if (progress >= 100) {
+            clearInterval(progressInterval);
+            sendToDiscord(text);
+        }
+    }, 200);
+});
+
+// Функция отправки
+function sendToDiscord(message) {
+    fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            content: 'Новое сообщение от Полины!',
+            embeds: [{
+                title: 'Послание',
+                description: message,
+                color: 0x8B0000,
+                timestamp: new Date().toISOString()
+            }]
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            showMessageModal('Успех!', 'Твоё сообщение успешно отправлено!', true);
+            messageText.value = '';
+        } else {
+            showMessageModal('Ошибка', 'Не удалось отправить сообщение', true);
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+        showMessageModal('Ошибка', 'Произошла ошибка при отправке', true);
+    });
+}
+
+function showMessageModal(title, text, showCloseButton) {
+    messageModalTitle.textContent = title;
+    messageModalText.textContent = text;
+    messageProgressBar.style.width = '0%';
+    
+    if (showCloseButton) {
+        closeMessageModalBtn.style.display = 'block';
+    } else {
+        closeMessageModalBtn.style.display = 'none';
+    }
+    
+    messageModal.style.display = 'flex';
+    setTimeout(() => {
+        messageModal.style.opacity = '1';
+    }, 10);
+}
+
+closeMessageModalBtn.addEventListener('click', function() {
+    messageModal.style.opacity = '0';
+    setTimeout(() => {
+        messageModal.style.display = 'none';
+    }, 300);
+});
+
+messageModal.addEventListener('click', function(e) {
+    if (e.target === messageModal) {
+        messageModal.style.opacity = '0';
+        setTimeout(() => {
+            messageModal.style.display = 'none';
+        }, 300);
+    }
+});
+</script>
+</body>
+</html>
